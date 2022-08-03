@@ -1,51 +1,17 @@
 // Leetcode 729
+// My Calender I
 
-// Number of Matching Subsequences
-
-class Solution {
-    private List<List<Integer>> pos;
-
-  private boolean isMatch(String word) {
-
-    int l = -1;
-
-    for (char c : word.toCharArray()) {
-
-      List<Integer> p = pos.get(c);
-
-      int index = Collections.binarySearch(p, l + 1);
-
-      if (index < 0) index = -index - 1;
-
-      if (index >= p.size()) return false;
-
-      l = p.get(index);
-
+class MyCalendar {
+    TreeMap<Integer,Integer> calender=new TreeMap<>();
+    
+    public MyCalendar() {
+        calender.put(Integer.MAX_VALUE,Integer.MAX_VALUE);
     }
-
-    return true;
-
-  }
-    public int numMatchingSubseq(String s, String[] words) {
-         pos = new ArrayList<>();
-
-    for (int i = 0; i < 128; ++i) 
-
-      pos.add(new ArrayList<Integer>());
-
-    char[] a = s.toCharArray();
-
-    for (int i = 0; i < a.length; ++i)
-
-      pos.get(a[i]).add(i);
-
-    int ans = 0;
-
-    for (String word : words)
-
-      if (isMatch(word)) ++ans;
-
-    return ans;
-
-  }
+    
+    public boolean book(int start, int end) {
+        Map.Entry<Integer,Integer> pair=calender.higherEntry(start);
+        boolean result=end<=pair.getValue();
+        if(result) calender.put(end,start);
+        return result;
+    }
 }
